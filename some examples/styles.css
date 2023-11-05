@@ -26,8 +26,8 @@ body{
 .hamburger-menu:has(input:checked){
     --foreground:white;
     --background:#333; 
-}/*for accessibility, who relyes on the keyboard shortcuts to havigate, nice outline effect.But implemented with :focus-within*/
-.hamburger-menu:focus-within * , .hamburger-menu:focus-within::after, .hamburger-menu:focus-within::before {
+}/*for accessibility, who relyes on the keyboard shortcuts to havigate, nice outline effect.*/
+.hamburger-menu:focus-within input , .hamburger-menu:focus-within::after, .hamburger-menu:focus-within::before {
     border: 1px solid var(--background);/*it's not even going to showing up*/
     box-shadow:0 0 0 1px var(--foreground);/*to match the color of our actual lines, as a second border*/
 }
@@ -44,12 +44,12 @@ body{
 }
 .hamburger-menu input{
     appearance:none; padding:0; margin:0; outline: none;
-    pointer-events: none;/*to make sure I cann't click on those checkbox at all*/
+    pointer-events: none;/*to make sure I can't click on those checkbox at all*/
 }
 .hamburger-menu:has(input:checked)::before{
     width: var(--x-width);
     rotate: 45deg;
-    translate: 0 calc(var(--bar-height)/-2);/*to move it up, to offset by half this line h*/
+    translate: 0 calc(var(--bar-height)/-2);/*to move it up, to offset by half this line height*/
 }
 .hamburger-menu:has(input:checked)::after{
     width: var(--x-width);

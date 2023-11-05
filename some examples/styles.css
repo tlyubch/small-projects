@@ -1,0 +1,98 @@
+*, *::after, *::before{
+    box-sizing: border-box;
+}
+body{
+    margin:0; 
+}
+:root{
+    --bar-width:50px;
+    --bar-height:8px;
+    --hamburger-gap:6px;
+    --foreground:#333;
+    --background:#FFF;
+    --hamburger-margin:8px;
+    --animation-timing: 200ms ease-in-out;
+    --hamburger-height:calc(var(--bar-height)* 3 + var(--hamburger-gap) *2);
+}
+.hamburger-menu{
+    --x-width:calc(var(--hamburger-height) * 1.41421356237);/*for right-angle 90' triangle*/
+    display:flex; flex-direction: column;
+    gap:var(--hamburger-gap);
+    /* background-color: red; */
+    width:max-content;
+    position:absolute; top:var(--hamburger-margin); left:var(--hamburger-margin); z-index:2;
+    cursor:pointer;
+}
+.hamburger-menu:has(input:checked){
+    --foreground:white;
+    --background:#333; 
+}/*for accessibility, who relyes on the keyboard shortcuts to havigate, nice outline effect.*/
+.hamburger-menu:focus-within input , .hamburger-menu:focus-within::after, .hamburger-menu:focus-within::before {
+    border: 1px solid var(--background);/*it's not even going to showing up*/
+    box-shadow:0 0 0 1px var(--foreground);/*to match the color of our actual lines, as a second border*/
+}
+.hamburger-menu::before, .hamburger-menu::after,
+.hamburger-menu input{
+    content:"";
+    width:var(--bar-width);
+    height:var(--bar-height);
+    background-color:var(--foreground);
+    border-radius:9999px;
+    transition:opacity var(--animation-timing), width var(--animation-timing), rotate var(--animation-timing), translate var(--animation-timing),
+    background-color var(--animation-timing);
+    transform-origin: left center;/*it rotates around the left hand side*/
+}
+.hamburger-menu input{
+    appearance:none; padding:0; margin:0; outline: none;
+    pointer-events: none;/*to make sure I can't click on those checkbox at all*/
+}
+.hamburger-menu:has(input:checked)::before{
+    width: var(--x-width);
+    rotate: 45deg;
+    translate: 0 calc(var(--bar-height)/-2);/*to move it up, to offset by half this line height*/
+}
+.hamburger-menu:has(input:checked)::after{
+    width: var(--x-width);
+    rotate: -45deg;
+    translate: 0 calc(var(--bar-height)/2);
+}
+.hamburger-menu input:checked{
+    /* background:red; */
+    opacity:0; width:0;
+}
+.sidebar{
+    translate: -100%; opacity:0.5; 
+    transition: translate var(--animation-timing);
+    padding:0.5rem 1rem;
+    padding-top: calc(var(--hamburger-height) + var(--hamburger-margin) + 1rem);
+    background-color: var(--foreground);
+    color:var(--background); max-width:10rem;
+    min-height: -moz-fit-content;
+    min-height:fit-content; 
+}
+
+.hamburger-menu:has(input:checked) +.sidebar{
+    translate: 0;
+}
+.hamburger-menu:has(input:checked) + .sidebar >nav/*nav*/
+ {   display:flex; flex-direction: column; row-gap:0.2rem; flex:1; 
+     margin: 0 auto;}
+.hamburger-menu:has(input:checked) + .sidebar >nav >a{display:flex; flex:1; justify-content:center; font-size: 1.5rem; cursor: pointer;
+    padding: 0.5rem 1rem;} 
+.sidebar >nav > a:hover{ background-color: aquamarine;}
+.stacked{
+    display:grid;
+    place-items: center;
+    isolation: isolate; /*even for video as a background*/
+}
+.stacked >*{
+    grid-column: 1 / -1;
+    grid-row: 1/-1;
+}
+.stacked > .media{
+    z-index: -1;
+}
+.stacked >img{
+    width:50%;
+}
+div:first-of-type{padding-top: 10px;}
